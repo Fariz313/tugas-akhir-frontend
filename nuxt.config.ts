@@ -2,6 +2,17 @@ import { defineNuxtConfig } from "nuxt/config";
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  app: {
+    head: {
+      title: 'APS', // Other meta information
+      link: [
+        { rel: "stylesheet", href: 'https://unpkg.com/leaflet/dist/leaflet.css' }
+      ],
+      script: [
+        { src: 'https://unpkg.com/leaflet/dist/leaflet.js' }
+      ]
+    }
+  },
   css: ["@fortawesome/fontawesome-free/css/all.css"],
   devtools: { enabled: true },
   modules: [

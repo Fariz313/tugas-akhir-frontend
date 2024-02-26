@@ -1,7 +1,7 @@
 <template>
     <div class="flex justify-between w-screen p-4">
         <h1 class="text-primary text-3xl font-black">APS</h1>
-        <button @click="changeMode"
+        <button @click="changeModeToggle"
             class="whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 w-10 flex items-center justify-center"
             aria-label="Toggle dark mode">
             <svg viewBox="0 0 15 15" class="ext-foreground" he>
@@ -22,15 +22,42 @@
     </div>
 </template>
 <script>
+import nuxtStorage from 'nuxt-storage';
 export default {
     methods: {
-        changeMode() {
-            var htmlElement = document.querySelector('html');
+        changeModeToggle() {
+            let htmlElement = document.querySelector('html');
             if (htmlElement.classList.contains('dark')) {
                 htmlElement.classList.remove('dark');
+                 nuxtStorage.localStorage.setData('darkmode',false)
+                 console.log(nuxtStorage.localStorage.getData('darkmode'));
+                 
             } else {
                 htmlElement.classList.add('dark');
+                 nuxtStorage.localStorage.setData('darkmode',true)
+                 console.log(nuxtStorage.localStorage.getData('darkmode'));
+                 
             }
+        },
+        changeMode(darkMode) {
+            console.log("dc",darkMode);
+            let htmlElement = document.querySelector('html');
+            if (!nuxtStorage.localStorage.getData('darkmode')) {
+                console.log("masok");
+                htmlElement.classList.remove('dark');
+            } else {
+                console.log("masok2");
+                htmlElement.classList.add('dark');
+            }
+        }
+    },
+    mounted(){
+        const dm = nuxtStorage.localStorage.getData('darkmode');
+        console.log("dm",dm);
+        if(dm){
+            this.changeMode(dm);
+        }else{
+            this.changeMode(!dm);
         }
     }
 }

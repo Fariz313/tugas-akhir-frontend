@@ -1,53 +1,85 @@
 <script setup lang="ts">
-import { h } from 'vue'
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import * as z from 'zod'
 
 import { Button } from '@/components/ui/button'
 import {
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
 } from '@/components/ui/form'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { Input } from '@/components/ui/input'
-import { toast } from '@/components/ui/toast'
 
 const formSchema = toTypedSchema(z.object({
-    username: z.string().min(2).max(50),
+  username: z.string().min(2).max(50),
 }))
 
-const { handleSubmit } = useForm({
-    validationSchema: formSchema,
+const form = useForm({
+  validationSchema: formSchema,
 })
 
-const onSubmit = handleSubmit((values) => {
-    toast({
-        title: 'You submitted the following values:',
-        description: h('pre', { class: 'mt-2 w-[340px] rounded-md bg-slate-950 p-4' }, h('code', { class: 'text-white' }, JSON.stringify(values, null, 2))),
-    })
+const onSubmit = form.handleSubmit((values) => {
+  console.log('Form submitted!', values)
 })
+
+const address = {};
+const type = {};
+
 </script>
 
 <template>
-    <form class="w-2/3 space-y-6" @submit="onSubmit">
-        <FormField v-slot="{ componentField }" name="username">
-            <FormItem>
-                <FormLabel>Username</FormLabel>
-                <FormControl>
-                    <Input type="text" placeholder="shadcn" v-bind="componentField" />
-                </FormControl>
-                <FormDescription>
-                    This is your public display name.
-                </FormDescription>
-                <FormMessage />
-            </FormItem>
-        </FormField>
-        <Button type="submit">
-            Submit
-        </Button>
-    </Form>
+  <form @submit="onSubmit">
+    <FormField v-slot="{ componentField }" name="username">
+      <FormItem>
+        <FormLabel>Alamat</FormLabel>
+        <FormControl>
+          <Input type="text" placeholder="shadcn" v-bind="address" />
+        </FormControl>
+        <FormDescription>
+          Masukan alamat rumah anda
+        </FormDescription>
+        <FormMessage />
+      </FormItem>
+      <FormItem>
+        <FormLabel>Jenis Pengambilan</FormLabel>
+        <Select v-bind="type">
+          <FormControl>
+            <SelectTrigger>
+              <SelectValue placeholder="Select a verified email to display" />
+            </SelectTrigger>
+          </FormControl>
+          <SelectContent>
+            <SelectGroup>
+              <SelectItem value="once">
+                Sekali Ambil
+              </SelectItem>
+              <SelectItem value="subscription">
+                Langganan
+              </SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+        <FormDescription>
+          You can manage email addresses in your
+          <a href="/examples/forms">email settings</a>.
+        </FormDescription>
+        <FormMessage />
+      </FormItem>
+    </FormField>
+    <Button type="submit">
+      Submit
+    </Button>
+  </form>
 </template>

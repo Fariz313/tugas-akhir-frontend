@@ -73,7 +73,7 @@ const type = {};
         </Select>
         <FormDescription>
           You can manage email addresses in your
-          <a href="/examples/forms">email settings</a>.
+          <!-- <a href="/examples/forms">email settings</a>. -->
         </FormDescription>
         <FormMessage />
       </FormItem>

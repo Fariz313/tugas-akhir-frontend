@@ -40,7 +40,7 @@ const type = {};
 </script>
 
 <template>
-  <Tabs default-value="account" class="w-screen h-screen flex flex-col">
+  <Tabs default-value="account" class="w-100% flex flex-col">
     <TabsList class="grid w-full grid-cols-2">
       <TabsTrigger value="account">
         Sekali Ambil

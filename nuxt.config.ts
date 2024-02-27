@@ -8,11 +8,10 @@ export default defineNuxtConfig({
     head: {
       title: 'APS', // Other meta information
       link: [
-        { rel: "stylesheet", href: 'https://unpkg.com/leaflet/dist/leaflet.css' }
+        // { rel: "stylesheet", href: 'https://unpkg.com/leaflet/dist/leaflet.css' }
       ],
       script: [
-        { src: 'https://unpkg.com/leaflet/dist/leaflet.js' },
-        { src: 'https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js' }
+        // { src: 'https://unpkg.com/leaflet/dist/leaflet.js' },
       ]
     }
   },

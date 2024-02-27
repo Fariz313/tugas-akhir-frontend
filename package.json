@@ -8,7 +8,7 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist --repo https://github.com/Fariz313/tugas-akhir-frontend.git"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.5.1",

@@ -4,12 +4,25 @@
         <button @click="changeModeToggle"
             class="whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 w-10 flex items-center justify-center"
             aria-label="Toggle dark mode">
-            <svg viewBox="0 0 15 15" class="ext-foreground" he>
-                <path fill="currentColor" fill-rule="evenodd"
-                    d="M2.9.5a.4.4 0 0 0-.8 0v.6h-.6a.4.4 0 1 0 0 .8h.6v.6a.4.4 0 1 0 .8 0v-.6h.6a.4.4 0 0 0 0-.8h-.6zm3 3a.4.4 0 1 0-.8 0v.6h-.6a.4.4 0 1 0 0 .8h.6v.6a.4.4 0 1 0 .8 0v-.6h.6a.4.4 0 0 0 0-.8h-.6zm-4 3a.4.4 0 1 0-.8 0v.6H.5a.4.4 0 1 0 0 .8h.6v.6a.4.4 0 0 0 .8 0v-.6h.6a.4.4 0 0 0 0-.8h-.6zM8.544.982l-.298-.04c-.213-.024-.34.224-.217.4A6.57 6.57 0 0 1 9.203 5.1a6.602 6.602 0 0 1-6.243 6.59c-.214.012-.333.264-.183.417a6.8 6.8 0 0 0 .21.206l.072.066l.26.226l.188.148l.121.09l.187.131l.176.115c.12.076.244.149.37.217l.264.135l.26.12l.303.122l.244.086a6.568 6.568 0 0 0 1.103.26l.317.04l.267.02a6.6 6.6 0 0 0 6.943-7.328l-.037-.277a6.557 6.557 0 0 0-.384-1.415l-.113-.268l-.077-.166l-.074-.148a6.602 6.602 0 0 0-.546-.883l-.153-.2l-.199-.24l-.163-.18l-.12-.124l-.16-.158l-.223-.2l-.32-.26l-.245-.177l-.292-.19l-.321-.186l-.328-.165l-.113-.052l-.24-.101l-.276-.104l-.252-.082l-.325-.09l-.265-.06zm1.86 4.318a7.578 7.578 0 0 0-.572-2.894a5.601 5.601 0 1 1-4.748 10.146a7.61 7.61 0 0 0 3.66-2.51a.749.749 0 0 0 1.355-.442a.75.75 0 0 0-.584-.732c.062-.116.122-.235.178-.355A1.25 1.25 0 1 0 10.35 6.2c.034-.295.052-.595.052-.9"
-                    clip-rule="evenodd">
-                </path>
+            <svg width="24" height="24" class="ext-foreground" viewBox="0 0 24 24" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                id="moonpath"
+                    d="M12 3C10.8134 4.19491 10.1488 5.81141 10.1518 7.49539C10.1547 9.17936 10.825 10.7935 12.0157 11.9843C13.2065 13.175 14.8206 13.8453 16.5046 13.8482C18.1886 13.8512 19.8051 13.1866 21 12C21 13.78 20.4722 15.5201 19.4832 17.0001C18.4943 18.4802 17.0887 19.6337 15.4442 20.3149C13.7996 20.9961 11.99 21.1743 10.2442 20.8271C8.49836 20.4798 6.89472 19.6226 5.63604 18.364C4.37737 17.1053 3.5202 15.5016 3.17294 13.7558C2.82567 12.01 3.0039 10.2004 3.68509 8.55585C4.36628 6.91131 5.51983 5.50571 6.99987 4.51677C8.47991 3.52784 10.22 3 12 3Z"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    <path
+                style="visibility: hidden;"
+
+                id="moonpathshape"
+                    d="M12 3C10.8134 4.19491 10.1488 5.81141 10.1518 7.49539C10.1547 9.17936 10.825 10.7935 12.0157 11.9843C13.2065 13.175 14.8206 13.8453 16.5046 13.8482C18.1886 13.8512 19.8051 13.1866 21 12C21 13.78 20.4722 15.5201 19.4832 17.0001C18.4943 18.4802 17.0887 19.6337 15.4442 20.3149C13.7996 20.9961 11.99 21.1743 10.2442 20.8271C8.49836 20.4798 6.89472 19.6226 5.63604 18.364C4.37737 17.1053 3.5202 15.5016 3.17294 13.7558C2.82567 12.01 3.0039 10.2004 3.68509 8.55585C4.36628 6.91131 5.51983 5.50571 6.99987 4.51677C8.47991 3.52784 10.22 3 12 3Z"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path
+                style="visibility: hidden;"
+                id="sunpath"
+                    d="M12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16Z M12 2V4 M12 20V22 M4.93005 4.93005L6.34005 6.34005 M17.66 17.66L19.07 19.07 M2 12H4 M20 12H22 M6.34005 17.66L4.93005 19.07 M19.07 4.93005L17.66 6.34005"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
+
         </button>
         <!-- <button
             class="whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 w-10 flex items-center justify-center"
@@ -22,6 +35,7 @@
     </div>
 </template>
 <script>
+import KUTE from 'kute.js/dist/kute';
 import nuxtStorage from 'nuxt-storage';
 export default {
     methods: {
@@ -29,34 +43,34 @@ export default {
             let htmlElement = document.querySelector('html');
             if (htmlElement.classList.contains('dark')) {
                 htmlElement.classList.remove('dark');
-                 nuxtStorage.localStorage.setData('darkmode',false)
-                 console.log(nuxtStorage.localStorage.getData('darkmode'));
-                 
+                nuxtStorage.localStorage.setData('darkmode', false)
+                KUTE.fromTo('#moonpath', { path: '#sunpath' }, { path: '#moonpathshape' }, {duration: 250}).start();
+
             } else {
                 htmlElement.classList.add('dark');
-                 nuxtStorage.localStorage.setData('darkmode',true)
-                 console.log(nuxtStorage.localStorage.getData('darkmode'));
-                 
+                nuxtStorage.localStorage.setData('darkmode', true)
+                const moonpath = document.getElementById('moonpath');
+                const sunpath = document.getElementById('sunpath');
+                KUTE.fromTo('#moonpath', { path: '#moonpath' }, { path: '#sunpath' }, {duration: 250}).start();
+
             }
         },
         changeMode(darkMode) {
-            console.log("dc",darkMode);
+            console.log("dc", darkMode);
             let htmlElement = document.querySelector('html');
             if (!nuxtStorage.localStorage.getData('darkmode')) {
-                console.log("masok");
                 htmlElement.classList.remove('dark');
             } else {
-                console.log("masok2");
                 htmlElement.classList.add('dark');
             }
         }
     },
-    mounted(){
+    mounted() {
         const dm = nuxtStorage.localStorage.getData('darkmode');
-        console.log("dm",dm);
-        if(dm){
+        console.log("dm", dm);
+        if (dm) {
             this.changeMode(dm);
-        }else{
+        } else {
             this.changeMode(!dm);
         }
     }

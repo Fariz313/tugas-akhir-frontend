@@ -11,7 +11,8 @@ export default defineNuxtConfig({
         { rel: "stylesheet", href: 'https://unpkg.com/leaflet/dist/leaflet.css' }
       ],
       script: [
-        { src: 'https://unpkg.com/leaflet/dist/leaflet.js' }
+        { src: 'https://unpkg.com/leaflet/dist/leaflet.js' },
+        { src: 'https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js' }
       ]
     }
   },
@@ -21,6 +22,7 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     '@vite-pwa/nuxt',
     'shadcn-nuxt',
+    'nuxt3-leaflet'
   ],
   shadcn: {
     /**
@@ -38,15 +40,15 @@ export default defineNuxtConfig({
     manifest: {
       name: 'Aplikasi Pengambilan Sampah',
       short_name: 'APS',
-      theme_color: '#ffffff',
+      theme_color: '#07071C',
       icons: [
         {
-          src: 'logo_truck.png',
+          src: 'icon.png',
           sizes: '512x512',
           type: 'image/png',
         },
         {
-          src: 'logo_truck.png',
+          src: 'icon.png',
           sizes: '512x512',
           type: 'image/png',
           purpose: 'any maskable',

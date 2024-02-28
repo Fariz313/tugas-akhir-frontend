@@ -56,7 +56,6 @@ export default {
             }
         },
         changeMode(darkMode) {
-            console.log("dc", darkMode);
             let htmlElement = document.querySelector('html');
             if (!nuxtStorage.localStorage.getData('darkmode')) {
                 htmlElement.classList.remove('dark');
@@ -67,7 +66,6 @@ export default {
     },
     mounted() {
         const dm = nuxtStorage.localStorage.getData('darkmode');
-        console.log("dm", dm);
         if (dm) {
             this.changeMode(dm);
         } else {

@@ -54,9 +54,9 @@ async function onSubmit(event: Event) {
         <span class="w-full border-t" />
       </div>
       <div class="relative flex justify-center text-xs uppercase">
-        <span class="bg-background px-2 text-muted-foreground">
-          Or continue with
-        </span>
+        <router-link  to="/register" class="bg-background px-2 text-muted-foreground">
+          Or register
+        </router-link>
       </div>
     </div>
   </div>

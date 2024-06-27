@@ -10,6 +10,7 @@
 </template>
 <script setup>
 import { ref } from 'vue'
+const emit = defineEmits(['updateCoordinates'])
 const zoom = ref(6);
 let center = ref([-7.983908, 112.621391])
 let map = ref("")
@@ -36,6 +37,7 @@ const getCoordinates = (event) => {
                 }
             });
             const marker = L.marker(event.latlng).addTo(map);
+                emit('updateCoordinates', event.latlng);
         });
     }
 }

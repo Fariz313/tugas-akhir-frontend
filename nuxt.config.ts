@@ -2,6 +2,9 @@ import { defineNuxtConfig } from "nuxt/config";
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  runtimeConfig: {
+    apiUrl: '',
+  },
   app: {
     baseURL: '/tugas-akhir-frontend/', 
     buildAssetsDir: 'assets',
@@ -21,7 +24,8 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     '@vite-pwa/nuxt',
     'shadcn-nuxt',
-    'nuxt3-leaflet'
+    'nuxt3-leaflet',
+    '@pinia/nuxt',
   ],
   shadcn: {
     /**

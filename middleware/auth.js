@@ -3,6 +3,6 @@ export default defineNuxtRouteMiddleware((to, from) => {
   authStore.loadToken();
   
   if ((!authStore.token||authStore.token=='undefined') && to.name !== 'login' && to.name !== 'register') {
-      return navigateTo('/login');
+      // return navigateTo('/login');
     }
   });

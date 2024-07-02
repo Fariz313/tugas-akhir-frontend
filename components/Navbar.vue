@@ -1,6 +1,9 @@
 <template>
     <div class="flex justify-between w-screen p-4">
         <h1 class="text-primary text-3xl font-black">APS</h1>
+        <button class="ms-auto" @click="logout">
+            Logout
+        </button>
         <button @click="changeModeToggle"
             class="whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 w-10 flex items-center justify-center"
             aria-label="Toggle dark mode">
@@ -24,6 +27,7 @@
             </svg>
 
         </button>
+        
         <!-- <button
             class="whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 w-10 flex items-center justify-center"
             aria-label="Toggle dark mode"><svg viewBox="0 0 15 15" width="1.2em" height="1.2em"
@@ -62,6 +66,11 @@ export default {
             } else {
                 htmlElement.classList.add('dark');
             }
+        },
+        logout() {
+            authStore.logout();
+            // Optionally, you can redirect the user to the login page or home page
+            this.$router.push('/login');
         }
     },
     mounted() {

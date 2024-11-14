@@ -21,7 +21,6 @@ async function onSubmit(event: Event) {
 
   try {
     await authStore.login(email.value, password.value);
-    useRouter().push('/');
   } catch (error) {
     errorMessage.value = 'Login Failed'
 

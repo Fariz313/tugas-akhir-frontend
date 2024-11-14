@@ -26,7 +26,13 @@ export default defineNuxtConfig({
     'shadcn-nuxt',
     'nuxt3-leaflet',
     '@pinia/nuxt',
+    "@nuxtjs/color-mode"
   ],
+  colorMode: {
+    classSuffix: '',
+    preference: 'light',
+    fallback: 'light'
+},
   shadcn: {
     /**
      * Prefix for all the imported component

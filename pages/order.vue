@@ -22,6 +22,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Input } from '@/components/ui/input'
+const authStore = useAuthStore();
 
 const formSchema = toTypedSchema(z.object({
   username: z.string().min(2).max(50),
@@ -31,24 +32,43 @@ const form = useForm({
   validationSchema: formSchema,
 })
 
-const onSubmit = form.handleSubmit(async (values) => {
-  console.log(values);
-  
+const createOrder = async () => {
+
   try {
-    const response = await axios.post('http://localhost:8000/api/order', values);
+    const response = await axios.post('http://localhost:8000/api/orders',
+      {
+        address: address.value,
+        type: type.value,
+        lat: latitude.value,
+        lng: longitude.value
+      },
+      {
+        headers: authStore.getAuthHeaders()
+      });
     console.log('Form submitted!', response.data);
+    useRouter().push('/');
   } catch (error) {
     console.error('There was an error submitting the form', error);
   }
-});
+};
 
 const address = ref('');
-const type = ref('');
+const type = ref('one-time');
+const latitude = ref(null);
+const longitude = ref(null);
+
+const handleCoordinates = (coords: any) => {
+  latitude.value = coords.lat;
+  longitude.value = coords.lng;
+  console.log(coords);
+
+};
+
 </script>
 
 <template>
   <Tabs default-value="one-time" class="w-100% flex flex-col">
-    <TabsList class="grid w-full grid-cols-2">
+    <TabsList v-model="type" class="grid w-full grid-cols-2">
       <TabsTrigger value="one-time">
         Sekali Ambil
       </TabsTrigger>
@@ -56,13 +76,13 @@ const type = ref('');
         Langganan
       </TabsTrigger>
     </TabsList>
-    <form @submit="onSubmit">
+    <div>
       <TabsContent value="one-time" class="grow">
         <FormField v-slot="{ componentField }" name="username">
           <FormItem>
             <FormLabel>Alamat</FormLabel>
             <FormControl>
-              <Input type="text" placeholder="shadcn" v-model="address" />
+              <Input type="text" placeholder="Masukan alamat" v-model="address" />
             </FormControl>
             <FormDescription>
               Masukan alamat rumah anda
@@ -71,10 +91,10 @@ const type = ref('');
           </FormItem>
           <FormItem>
             <FormLabel>Masukan Lokasi, Tap Pada Lokasi Rumah Anda!</FormLabel>
-            <Map />
+            <Map @updateCoordinates="handleCoordinates" />
           </FormItem>
         </FormField>
-        <Button class="my-3 w-full" type="submit">
+        <Button class="my-3 w-full" type="button" @click="createOrder">
           Submit
         </Button>
       </TabsContent>
@@ -118,14 +138,14 @@ const type = ref('');
           </FormItem>
           <FormItem>
             <FormLabel>Masukan Lokasi, Tap Pada Lokasi Rumah Anda!</FormLabel>
-            <Map />
+            <Map @updateCoordinates="handleCoordinates" />
           </FormItem>
         </FormField>
-        <Button type="submit" class="my-3 w-full">
+        <button type="button" @click="createOrder" class="my-3 w-full ">
           Submit
-        </Button>
+        </button>
       </TabsContent>
-    </form>
+    </div>
   </Tabs>
 </template>
 
@@ -133,6 +153,7 @@ const type = ref('');
 .leaflet-pane {
   z-index: 5 !important;
 }
+
 .leaflet-control {
   z-index: 6 !important;
 }

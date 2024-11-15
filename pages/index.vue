@@ -19,6 +19,9 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Calendar } from '@/components/ui/calendar'
+definePageMeta({
+    middleware: 'auth' // this should match the name of the file inside the middleware directory 
+})
 
 const date = new Date();
 const year = date.getFullYear();

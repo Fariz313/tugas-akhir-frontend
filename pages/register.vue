@@ -33,7 +33,7 @@ async function onSubmit(event: Event) {
 
 <template>
     <div class="mt-24 p-50 max-w-screen-md min-h-96 mx-auto my-auto" :class="cn('grid gap-6', $attrs.class ?? '')">
-        <form @submit="onSubmit">
+        <form @submit.prevent="onSubmit">
             <div class="grid gap-2">
                 <div class="grid gap-1">
                     <Label class="sr-only" for="name">Name</Label>
@@ -46,7 +46,7 @@ async function onSubmit(event: Event) {
                     <Input id="password" v-model="password" placeholder="password" type="password"
                         auto-capitalize="none" auto-complete="password" auto-correct="off" :disabled="isLoading" />
                 </div>
-                <Button :disabled="isLoading">
+                <Button type="submit" :disabled="isLoading">
                     <!-- <LucideSpinner v-if="isLoading" class="mr-2 h-4 w-4 animate-spin" /> -->
                     Register
                 </Button>

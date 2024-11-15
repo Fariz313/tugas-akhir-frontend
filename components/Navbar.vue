@@ -1,7 +1,7 @@
 <template>
     <div class="flex justify-between w-screen p-4">
         <h1 class="text-primary text-3xl font-black">APS</h1>
-        <h1>Color mode: {{ $colorMode.value }}</h1>
+        <!-- <h1>Color mode: {{ $colorMode.value }}</h1> -->
         <select v-model="$colorMode.preference">
             <option value="system">System</option>
             <option value="light">Light</option>
@@ -16,25 +16,19 @@
             aria-label="Toggle dark mode">
             <svg width="24" height="24" class="ext-foreground" viewBox="0 0 24 24" fill="none"
                 xmlns="http://www.w3.org/2000/svg">
-                <path
-                id="moonpath"
+                <path id="moonpath"
                     d="M12 3C10.8134 4.19491 10.1488 5.81141 10.1518 7.49539C10.1547 9.17936 10.825 10.7935 12.0157 11.9843C13.2065 13.175 14.8206 13.8453 16.5046 13.8482C18.1886 13.8512 19.8051 13.1866 21 12C21 13.78 20.4722 15.5201 19.4832 17.0001C18.4943 18.4802 17.0887 19.6337 15.4442 20.3149C13.7996 20.9961 11.99 21.1743 10.2442 20.8271C8.49836 20.4798 6.89472 19.6226 5.63604 18.364C4.37737 17.1053 3.5202 15.5016 3.17294 13.7558C2.82567 12.01 3.0039 10.2004 3.68509 8.55585C4.36628 6.91131 5.51983 5.50571 6.99987 4.51677C8.47991 3.52784 10.22 3 12 3Z"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    <path
-                style="visibility: hidden;"
-
-                id="moonpathshape"
+                <path style="visibility: hidden;" id="moonpathshape"
                     d="M12 3C10.8134 4.19491 10.1488 5.81141 10.1518 7.49539C10.1547 9.17936 10.825 10.7935 12.0157 11.9843C13.2065 13.175 14.8206 13.8453 16.5046 13.8482C18.1886 13.8512 19.8051 13.1866 21 12C21 13.78 20.4722 15.5201 19.4832 17.0001C18.4943 18.4802 17.0887 19.6337 15.4442 20.3149C13.7996 20.9961 11.99 21.1743 10.2442 20.8271C8.49836 20.4798 6.89472 19.6226 5.63604 18.364C4.37737 17.1053 3.5202 15.5016 3.17294 13.7558C2.82567 12.01 3.0039 10.2004 3.68509 8.55585C4.36628 6.91131 5.51983 5.50571 6.99987 4.51677C8.47991 3.52784 10.22 3 12 3Z"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                <path
-                style="visibility: hidden;"
-                id="sunpath"
+                <path style="visibility: hidden;" id="sunpath"
                     d="M12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16Z M12 2V4 M12 20V22 M4.93005 4.93005L6.34005 6.34005 M17.66 17.66L19.07 19.07 M2 12H4 M20 12H22 M6.34005 17.66L4.93005 19.07 M19.07 4.93005L17.66 6.34005"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
 
         </button>
-        
+
         <!-- <button
             class="whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 w-10 flex items-center justify-center"
             aria-label="Toggle dark mode"><svg viewBox="0 0 15 15" width="1.2em" height="1.2em"
@@ -48,41 +42,28 @@
 <script setup>
 const colorMode = useColorMode();
 const changeColor = () => (colorMode.preference = (colorMode.value === 'light' ? 'dark' : 'light'))
+import { storeToRefs } from 'pinia'; // import storeToRefs helper hook from pinia
 
-<<<<<<< HEAD
-</script>
-=======
-            } else {
-                htmlElement.classList.add('dark');
-                nuxtStorage.localStorage.setData('darkmode', true)
-                const moonpath = document.getElementById('moonpath');
-                const sunpath = document.getElementById('sunpath');
-                KUTE.fromTo('#moonpath', { path: '#moonpath' }, { path: '#sunpath' }, {duration: 250}).start();
+import { useAuthStore } from '~/stores/auth'; // import the auth store we just created
 
-            }
-        },
-        changeMode(darkMode) {
-            let htmlElement = document.querySelector('html');
-            if (!nuxtStorage.localStorage.getData('darkmode')) {
-                htmlElement.classList.remove('dark');
-            } else {
-                htmlElement.classList.add('dark');
-            }
-        },
-        logout() {
-            authStore.logout();
-            // Optionally, you can redirect the user to the login page or home page
-            this.$router.push('/login');
-        }
-    },
-    mounted() {
-        const dm = nuxtStorage.localStorage.getData('darkmode');
-        if (dm) {
-            this.changeMode(dm);
-        } else {
-            this.changeMode(!dm);
-        }
-    }
-}
+
+
+const router = useRouter();
+
+
+
+const { logUserOut } = useAuthStore(); // use authenticateUser action from  auth store
+
+const { authenticated } = storeToRefs(useAuthStore()); // make authenticated state reactive with storeToRefs
+
+
+
+const logout = () => {
+
+    logUserOut();
+
+    router.push('/login');
+
+};
+
 </script>
->>>>>>> cb56a6fd3b07ccc8256b83b93b29033f062fd89b

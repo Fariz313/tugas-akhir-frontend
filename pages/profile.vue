@@ -10,7 +10,6 @@ import { Label } from '@/components/ui/label';
 
 const API_URL = "http://localhost:8000"; // Replace with your actual API URL
 
-const authStore = useAuthStore();
 const isLoading = ref(false);
 const name = ref('');
 const email = ref('');
@@ -20,7 +19,7 @@ const successMessage = ref('');
 const router = useRouter();
 
 const logout = () => {
-  authStore.logout();
+  // authStore.logout();
 };
 const getAuthHeaders = () => {
   const token = localStorage.getItem('token');

@@ -22,7 +22,6 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Input } from '@/components/ui/input'
-const authStore = useAuthStore();
 
 const formSchema = toTypedSchema(z.object({
   username: z.string().min(2).max(50),
@@ -33,20 +32,25 @@ const form = useForm({
 })
 
 const createOrder = async () => {
-
+  const sAuth = useAuth();
   try {
-    const response = await axios.post('http://localhost:8000/api/orders',
-      {
+    const { data } = await useFetch(`http://localhost:8000/api/orders`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': sAuth.token
+      },
+      body: {
         address: address.value,
         type: type.value,
         lat: latitude.value,
         lng: longitude.value
-      },
-      {
-        headers: authStore.getAuthHeaders()
-      });
-    console.log('Form submitted!', response.data);
-    useRouter().push('/');
+      }
+    });
+    if (data.value) {
+      console.log('Form submitted!', data.value);
+      useRouter().push('/');
+    }
   } catch (error) {
     console.error('There was an error submitting the form', error);
   }
@@ -141,9 +145,9 @@ const handleCoordinates = (coords: any) => {
             <Map @updateCoordinates="handleCoordinates" />
           </FormItem>
         </FormField>
-        <button type="button" @click="createOrder" class="my-3 w-full ">
+        <Button class="my-3 mb-20 w-full" type="button" @click="createOrder">
           Submit
-        </button>
+        </Button>
       </TabsContent>
     </div>
   </Tabs>

@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useAuthStore } from '../stores/auth';
 
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+definePageMeta({
+    layout: 'clear',
+    auth: false
+
+});
 
 const isLoading = ref(false)
 const name = ref('')
@@ -13,16 +17,34 @@ const email = ref('')
 const password = ref('')
 const errorMessage = ref('')
 const router = useRouter();
-const authStore = useAuthStore();
-
 async function onSubmit(event: Event) {
     event.preventDefault()
     isLoading.value = true
     errorMessage.value = ''
 
     try {
-        await authStore.register(name.value,email.value, password.value, 'user' );
-        useRouter().push('/login');
+        // await authStore.register(name.value,email.value, password.value, 'user' );
+        try {
+            const { data } = await useFetch(`http://localhost:8000/api/register`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body:{
+                    name:name.value,
+                    email:email.value,
+                    password:password.value,
+                    role:"user"
+                }
+            });
+            if(data.value){
+                useRouter().push('/login');
+            }
+        } catch (error) {
+            console.error('Failed to register:', error);
+        } finally {
+            isLoading.value = false;
+        }
     } catch (error) {
         errorMessage.value = 'Registration Failed'
     } finally {

@@ -6,7 +6,7 @@ export default defineNuxtConfig({
     apiUrl: '',
   },
   app: {
-    baseURL: '/tugas-akhir-frontend/', 
+    baseURL: '/tugas-akhir-frontend/',
     buildAssetsDir: 'assets',
     head: {
       title: 'APS', // Other meta information
@@ -26,13 +26,36 @@ export default defineNuxtConfig({
     'shadcn-nuxt',
     'nuxt3-leaflet',
     '@pinia/nuxt',
-    "@nuxtjs/color-mode"
+    "@nuxtjs/color-mode",
+    '@sidebase/nuxt-auth'
   ],
+  auth: {
+    globalAppMiddleware: true,
+    baseURL: process.env.NUXT_PUBLIC_API_URL,
+    provider: {
+      type: 'local',
+      endpoints: {
+        signIn: { path: 'login', method: 'post' },
+        signOut: { path: 'logout', method: 'get' },
+        signUp: { path: '/identity/accounts/register', method: 'post' },
+        getSession: { path: 'me', method: 'get' }
+      },
+      pages: {
+        login: '/login'
+      },
+      token: {
+        signInResponseTokenPointer: '/token',
+        type: 'Bearer',
+        cookieName: 'auth.token',
+        headerName: 'Authorization',
+      }
+    }
+  },
   colorMode: {
     classSuffix: '',
     preference: 'light',
     fallback: 'light'
-},
+  },
   shadcn: {
     /**
      * Prefix for all the imported component
@@ -82,4 +105,5 @@ export default defineNuxtConfig({
       type: 'module',
     },
   },
+
 })

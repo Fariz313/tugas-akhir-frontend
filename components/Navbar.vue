@@ -1,5 +1,9 @@
 <template>
     <div class="flex justify-between w-screen p-4">
+        <button  v-if="enableButton" class=" bg-slate-200 p-2 rounded" @click="toggleSidebar">
+            <span v-if="!sidebarOn">☰</span>
+            <span v-else>✕</span>
+        </button>
         <h1 class="text-primary text-3xl font-black">APS</h1>
         <!-- <h1>Color mode: {{ $colorMode.value }}</h1> -->
         <select v-model="$colorMode.preference">
@@ -42,28 +46,20 @@
 <script setup>
 const colorMode = useColorMode();
 const changeColor = () => (colorMode.preference = (colorMode.value === 'light' ? 'dark' : 'light'))
-import { storeToRefs } from 'pinia'; // import storeToRefs helper hook from pinia
-
-import { useAuthStore } from '~/stores/auth'; // import the auth store we just created
-
-
-
 const router = useRouter();
+const props = defineProps({
+    toggleSidebar: Function,
+    sidebarOn: Boolean,
+});
+const sAuth = useAuth();
+const enableButton =ref(false);
+console.log("EB",sAuth.data?.value?.role);
 
-
-
-const { logUserOut } = useAuthStore(); // use authenticateUser action from  auth store
-
-const { authenticated } = storeToRefs(useAuthStore()); // make authenticated state reactive with storeToRefs
-
-
-
-const logout = () => {
-
-    logUserOut();
-
-    router.push('/login');
-
-};
-
+if (sAuth.data?.value?.role === 'admin' || sAuth.data?.value?.role === 'driver') {
+    enableButton.value = true;
+}
+const logout = async () => {
+    await sAuth.signOut();
+    router.push('/');
+}
 </script>

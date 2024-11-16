@@ -1,22 +1,35 @@
 <script lang="ts" setup>
 import { storeToRefs } from 'pinia';
-import { useAuthStore } from '~/stores/auth';
-const { authenticateUser } = useAuthStore();
-const { authenticated } = storeToRefs(useAuthStore());
-const user = ref({
+const { signIn } = useAuth();
+
+definePageMeta({
+  layout: 'clear',
+});
+
+const loading = ref(false);
+const errorMessage = ref(''); // To store the error message
+const user = reactive({
   email: '',
   password: '',
 });
 const router = useRouter();
+
 const login = async () => {
-  await authenticateUser(user.value);
-  console.log("isi,",authenticated.value);
-  
-  if (authenticated.value) {
-    router.push('/');
+  loading.value = true;
+  errorMessage.value = ''; // Clear previous error message
+  try {
+    let res = await signIn(
+      { ...user },
+      { callbackUrl: '/' } // Redirect after successful login
+    );
+    router.push('/'); // Redirect to home or desired route
+  } catch (error) {
+    errorMessage.value = 'Invalid email or password. Please try again.'; // Set the error message
+    loading.value = false;
   }
 };
 </script>
+
 <template>
   <div class="mt-24 p-50 max-w-screen-md min-h-96 mx-auto my-auto grid gap-6">
     <form @submit.prevent="login">
@@ -28,9 +41,11 @@ const login = async () => {
           <Input id="password" v-model="user.password" placeholder="password" type="password" auto-capitalize="none"
             auto-complete="password" auto-correct="off" />
         </div>
-        <Button>
+        <Button :disabled="loading">
           Sign In with Email
         </Button>
+        <!-- Error Message -->
+        <p v-if="errorMessage" class="text-red-500 text-sm mt-2">{{ errorMessage }}</p>
       </div>
     </form>
     <div class="relative">

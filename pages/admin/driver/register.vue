@@ -42,7 +42,7 @@ const onSubmit = form.handleSubmit(async (values) => {
     errorMessage.value = ''
 
     try {
-        await authStore.register(values.email,values.name, values.password, 'driver' );
+        // await authStore.register(values.email,values.name, values.password, 'driver' );
         useRouter().push('/driver');
     } catch (error) {
         errorMessage.value = 'Registration Failed'
@@ -58,7 +58,6 @@ const email = ref('')
 const password = ref('')
 const errorMessage = ref('')
 const router = useRouter();
-const authStore = useAuthStore();
 
 </script>
 

@@ -6,7 +6,7 @@
     </CardHeader>
     <CardContent>
       <h3 class="text-primary bg-slate-100 px-3 py-4 rounded-lg">Truk sampah sedang perjalanan ke rumah anda !</h3>
-      <Calendar :attributes='attr' />
+      <Calendar :attributes='attributes' />
     </CardContent>
   </Card>
 </template>
@@ -52,5 +52,8 @@ const attributes:any = ref([
     dates: new Date(year, month, 14),
   },
 ]);
-onMounted(async () => {attr = attributes});
+onMounted(async () => {
+  attr = attributes
+  
+  });
 </script>

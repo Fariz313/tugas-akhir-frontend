@@ -1,15 +1,72 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { useForm } from 'vee-validate'
+import { toTypedSchema } from '@vee-validate/zod'
+import * as z from 'zod'
 
-import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
+import {
+    FormControl,
+    FormDescription,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 definePageMeta({
     layout: 'clear',
     auth: false
 
 });
+const formSchema = toTypedSchema(
+    z.object({
+        email: z
+            .string()
+            .email({ message: "Email must be a valid email address" }) // Validasi format email
+            .min(5, { message: "Email must be at least 5 characters long" }) // Batas minimal karakter
+            .max(50, { message: "Email must be at most 50 characters long" }), // Batas maksimal karakter
+        name: z
+            .string()
+            .min(2, { message: "Nama must be at least 2 characters long" })
+            .max(50, { message: "Nama must be at most 50 characters long" }),
+        password: z
+            .string()
+            .min(6, { message: "Password must be at least 6 characters long" })
+            .max(50, { message: "Password must be at most 50 characters long" }),
+    })
+)
+
+const form = useForm({
+    validationSchema: formSchema,
+})
+
+const onSubmit = form.handleSubmit(async (values) => {
+
+    isLoading.value = true
+    errorMessage.value = ''
+
+    try {
+        // await authStore.register(values.email,values.name, values.password, 'driver' );
+        const { data } = await useFetch(`http://localhost:8000/api/register`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body:{
+                    name:values.name,
+                    email:values.email,
+                    password:values.password,
+                    role:"user"
+                }
+            });
+        useRouter().push('/login');
+    } catch (error) {
+        errorMessage.value = 'Registration Failed'
+    } finally {
+        isLoading.value = false
+    }
+})
+
 
 const isLoading = ref(false)
 const name = ref('')
@@ -17,73 +74,54 @@ const email = ref('')
 const password = ref('')
 const errorMessage = ref('')
 const router = useRouter();
-async function onSubmit(event: Event) {
-    event.preventDefault()
-    isLoading.value = true
-    errorMessage.value = ''
 
-    try {
-        // await authStore.register(name.value,email.value, password.value, 'user' );
-        try {
-            const { data } = await useFetch(`http://localhost:8000/api/register`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body:{
-                    name:name.value,
-                    email:email.value,
-                    password:password.value,
-                    role:"user"
-                }
-            });
-            if(data.value){
-                useRouter().push('/login');
-            }
-        } catch (error) {
-            console.error('Failed to register:', error);
-        } finally {
-            isLoading.value = false;
-        }
-    } catch (error) {
-        errorMessage.value = 'Registration Failed'
-    } finally {
-        isLoading.value = false
-    }
-}
 </script>
 
 <template>
-    <div class="mt-24 p-50 max-w-screen-md min-h-96 mx-auto my-auto" :class="cn('grid gap-6', $attrs.class ?? '')">
-        <form @submit.prevent="onSubmit">
-            <div class="grid gap-2">
-                <div class="grid gap-1">
-                    <Label class="sr-only" for="name">Name</Label>
-                    <Input id="name" v-model="name" placeholder="Your Name" type="text" auto-capitalize="none"
-                        auto-complete="name" auto-correct="off" :disabled="isLoading" />
-                    <Label class="sr-only" for="email">Email</Label>
-                    <Input id="email" v-model="email" placeholder="name@example.com" type="email" auto-capitalize="none"
-                        auto-complete="email" auto-correct="off" :disabled="isLoading" />
-                    <Label class="sr-only" for="password">Password</Label>
-                    <Input id="password" v-model="password" placeholder="password" type="password"
-                        auto-capitalize="none" auto-complete="password" auto-correct="off" :disabled="isLoading" />
-                </div>
-                <Button type="submit" :disabled="isLoading">
-                    <!-- <LucideSpinner v-if="isLoading" class="mr-2 h-4 w-4 animate-spin" /> -->
-                    Register
-                </Button>
-                <p v-if="errorMessage" class="text-red-500">{{ errorMessage }}</p>
-            </div>
+    <div>
+        <h2 class="text-2xl font-bold tracking-tight mb-10">
+            Daftarkan Driver!
+        </h2>
+        <form @submit="onSubmit">
+            <FormField v-slot="{ componentField }" name="email">
+                <FormItem>
+                    <FormLabel>Email Driver</FormLabel>
+                    <FormControl>
+                        <Input type="email" placeholder="Email Driver" v-bind="componentField" />
+                    </FormControl>
+                    <FormDescription>
+                        Masukan email driver untuk login.
+                    </FormDescription>
+                    <FormMessage />
+                </FormItem>
+            </FormField>
+            <FormField v-slot="{ componentField }" name="name">
+                <FormItem>
+                    <FormLabel>Nama Driver</FormLabel>
+                    <FormControl>
+                        <Input type="text" placeholder="Nama Driver" v-bind="componentField" />
+                    </FormControl>
+                    <FormDescription>
+                        Masukan nama driver.
+                    </FormDescription>
+                    <FormMessage />
+                </FormItem>
+            </FormField>
+            <FormField v-slot="{ componentField }" name="password">
+                <FormItem>
+                    <FormLabel>Password Driver</FormLabel>
+                    <FormControl>
+                        <Input type="password" placeholder="Password Driver" v-bind="componentField" />
+                    </FormControl>
+                    <FormDescription>
+                        Masukan password driver untuk login.
+                    </FormDescription>
+                    <FormMessage />
+                </FormItem>
+            </FormField>
+            <Button class="mt-10" type="submit">
+                Submit
+            </Button>
         </form>
-        <div class="relative">
-            <div class="absolute inset-0 flex items-center">
-                <span class="w-full border-t" />
-            </div>
-            <div class="relative flex justify-center text-xs uppercase">
-                <router-link to="/login" class="bg-background px-2 text-muted-foreground">
-                    Or login
-                </router-link>
-            </div>
-        </div>
     </div>
 </template>

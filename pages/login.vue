@@ -53,9 +53,9 @@ const login = async () => {
         <span class="w-full border-t"></span>
       </div>
       <div class="relative flex justify-center text-xs uppercase">
-        <router-link to="/register" class="bg-background px-2 text-muted-foreground">
+        <nuxt-link to="/register" class="bg-background px-2 text-muted-foreground">
           Or register
-        </router-link>
+        </nuxt-link>
       </div>
     </div>
   </div>

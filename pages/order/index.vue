@@ -30,8 +30,9 @@ const formSchema = toTypedSchema(z.object({
 const form = useForm({
   validationSchema: formSchema,
 })
-
+const isLoading =ref(false)
 const createOrder = async () => {
+  isLoading.value = true
   const sAuth = useAuth();
   try {
     let payloadData = {
@@ -52,11 +53,14 @@ const createOrder = async () => {
       body: payloadData
     });
     if (data.value) {
+      alert('Berhasil Di Submit')
       console.log('Form submitted!', data.value);
       useRouter().push('/');
     }
   } catch (error) {
     console.error('There was an error submitting the form', error);
+  } finally {
+    isLoading.value = false
   }
 };
 
@@ -158,7 +162,7 @@ const changeType = (selectedType)=>{
               <Map @updateCoordinates="handleCoordinates" />
             </FormItem>
           </FormField>
-          <Button class="my-3 mb-20 w-full" type="button" @click="createOrder">
+          <Button :disabled="isLoading" class="my-3 mb-20 w-full" type="button" @click="createOrder">
             Submit
           </Button>
         </TabsContent>

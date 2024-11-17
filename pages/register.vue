@@ -85,36 +85,36 @@ const router = useRouter();
         <form @submit="onSubmit">
             <FormField v-slot="{ componentField }" name="email">
                 <FormItem>
-                    <FormLabel>Email Driver</FormLabel>
+                    <FormLabel>Email</FormLabel>
                     <FormControl>
-                        <Input type="email" placeholder="Email Driver" v-bind="componentField" />
+                        <Input type="email" placeholder="Email " v-bind="componentField" />
                     </FormControl>
                     <FormDescription>
-                        Masukan email driver untuk login.
+                        Masukan email  untuk login.
                     </FormDescription>
                     <FormMessage />
                 </FormItem>
             </FormField>
             <FormField v-slot="{ componentField }" name="name">
                 <FormItem>
-                    <FormLabel>Nama Driver</FormLabel>
+                    <FormLabel>Nama </FormLabel>
                     <FormControl>
-                        <Input type="text" placeholder="Nama Driver" v-bind="componentField" />
+                        <Input type="text" placeholder="Nama " v-bind="componentField" />
                     </FormControl>
                     <FormDescription>
-                        Masukan nama driver.
+                        Masukan nama anda.
                     </FormDescription>
                     <FormMessage />
                 </FormItem>
             </FormField>
             <FormField v-slot="{ componentField }" name="password">
                 <FormItem>
-                    <FormLabel>Password Driver</FormLabel>
+                    <FormLabel>Password </FormLabel>
                     <FormControl>
-                        <Input type="password" placeholder="Password Driver" v-bind="componentField" />
+                        <Input type="password" placeholder="Password " v-bind="componentField" />
                     </FormControl>
                     <FormDescription>
-                        Masukan password driver untuk login.
+                        Masukan password untuk login.
                     </FormDescription>
                     <FormMessage />
                 </FormItem>

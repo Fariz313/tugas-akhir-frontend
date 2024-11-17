@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
@@ -32,19 +32,24 @@ const getAuthHeaders = () => {
 
 const getUserProfile = async () => {
   try {
+    const sAuth = await useAuth();
     const response = await axios.get(`${API_URL}/api/profile`, {
-      headers: getAuthHeaders()
+      headers: {
+        "Authorization": sAuth.token.value
+      }
     });
     return response.data;
   } catch (error) {
     throw new Error('Failed to load profile data');
   }
 };
-
 const updateUserProfile = async (profileData) => {
   try {
+    const sAuth = await useAuth();
     const response = await axios.put(`${API_URL}/api/profile`, profileData, {
-      headers: getAuthHeaders()
+      headers: {
+        "Authorization": sAuth.token.value
+      }
     });
     return response.data;
   } catch (error) {
@@ -62,7 +67,7 @@ onMounted(async () => {
   }
 });
 
-async function onSubmit(event: Event) {
+async function onSubmit(event) {
   event.preventDefault();
   isLoading.value = true;
   errorMessage.value = '';

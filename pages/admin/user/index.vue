@@ -18,7 +18,7 @@ const isLoading = ref(false);
 
 const fetchusers = async (page = 1) => {
     const {token} = await useAuth();
-    isLoading.value = true;a
+    isLoading.value = true;
     try {
         const { data } = await useFetch(`http://localhost:8000/api/users?role=user&page=${page}`, {
             method: 'GET',
@@ -43,7 +43,25 @@ const changePage = (page) => {
         fetchusers(page);
     }
 };
+const deleteUser = async (id) => {
+    const {token} = await useAuth();
+    isLoading.value = true;
+    try {
+        const { data } = await useFetch(`http://localhost:8000/api/deleteUser/${id}`, {
+            method: 'DELETE',
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': token  
+            },
+        });
 
+        fetchusers(currentPage.value)
+    } catch (error) {
+        console.error('Failed to fetch user:', error);
+    } finally {
+        isLoading.value = false;
+    }
+};
 // Fetch initial data
 onMounted(() => {
     fetchusers(currentPage.value);
@@ -73,8 +91,7 @@ onMounted(() => {
                     <TableCell>{{ user.name }}</TableCell>
                     <TableCell>{{ user.email }}</TableCell>
                     <TableCell class="text-right">
-                        <button class="btn btn-primary me-2">Edit</button>
-                        <button class="btn btn-danger">Delete</button>
+                        <Button :disabled=isLoading variant="destructive" @click="deleteUser(user.id)">Delete</Button>
                     </TableCell>
                 </TableRow>
             </TableBody>

@@ -59,7 +59,7 @@ if (sAuth.data?.value?.role === 'admin' || sAuth.data?.value?.role === 'driver')
     enableButton.value = true;
 }
 const logout = async () => {
-    await sAuth.signOut();
+    await sAuth.signOut({callbackUrl:"/login"});
     router.push('/');
 }
 </script>

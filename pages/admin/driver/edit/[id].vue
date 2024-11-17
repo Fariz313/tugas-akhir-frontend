@@ -1,8 +1,7 @@
-<script setup lang="ts">
+<script setup >
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import * as z from 'zod'
-
 import { Button } from '@/components/ui/button'
 import {
     FormControl,
@@ -13,7 +12,7 @@ import {
     FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-
+const route=useRoute()
 const formSchema = toTypedSchema(
     z.object({
         email: z
@@ -44,17 +43,18 @@ const onSubmit = form.handleSubmit(async (values) => {
     try {
         // await authStore.register(values.email,values.name, values.password, 'driver' );
         const { data } = await useFetch(`http://localhost:8000/api/register`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body:{
-                    name:values.name,
-                    email:values.email,
-                    password:values.password,
-                    role:"driver"
-                }
-            });
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: {
+                id:id,
+                name: values.name,
+                email: values.email,
+                password: values.password,
+                role: "driver"
+            }
+        });
         useRouter().push('/admin/driver');
     } catch (error) {
         errorMessage.value = 'Registration Failed'
@@ -62,15 +62,46 @@ const onSubmit = form.handleSubmit(async (values) => {
         isLoading.value = false
     }
 })
+const fetchDrivers =ref({
+    name:"",
+    email:""
+})
+const fetchData = async () => {
+    const {token} = useAuth();
+    isLoading.value = true
+    errorMessage.value = ''
 
+    try {
+        // await authStore.register(values.email,values.name, values.password, 'driver' );
+        const { data } = await useFetch(`http://localhost:8000/api/profile/${route.params.id}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': token
+            },
+        });
+        fetchDrivers.value=data.value
+        
+        email.value = fetchDrivers.value.email
+        name.value = fetchDrivers.value.name
 
+        document.getElementById('email').value = fetchDrivers.value.email
+        document.getElementById('name').value = fetchDrivers.value.name
+    } catch (error) {
+        errorMessage.value = 'Registration Failed'
+    } finally {
+        isLoading.value = false
+    }
+}
 const isLoading = ref(false)
+const id = ref(route.params.id)
 const name = ref('')
 const email = ref('')
 const password = ref('')
 const errorMessage = ref('')
 const router = useRouter();
 
+fetchData();
 </script>
 
 <template>
@@ -83,7 +114,7 @@ const router = useRouter();
                 <FormItem>
                     <FormLabel>Email Driver</FormLabel>
                     <FormControl>
-                        <Input type="email" placeholder="Email Driver" v-bind="componentField" />
+                        <Input id="email" type="email" placeholder="Email Driver" v-bind="componentField" />
                     </FormControl>
                     <FormDescription>
                         Masukan email driver untuk login.
@@ -95,7 +126,7 @@ const router = useRouter();
                 <FormItem>
                     <FormLabel>Nama Driver</FormLabel>
                     <FormControl>
-                        <Input type="text" placeholder="Nama Driver" v-bind="componentField" />
+                        <Input id="name" type="text"  placeholder="Nama Driver" v-bind="componentField" />
                     </FormControl>
                     <FormDescription>
                         Masukan nama driver.

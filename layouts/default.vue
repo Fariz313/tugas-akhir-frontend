@@ -47,7 +47,7 @@ const closeSidebar = () => {
 onMounted(() => {
 const sAuth = useAuth();
   
-  if (sAuth.data.value.role === 'admin' || sAuth.data.value.role === 'driver') {
+  if (sAuth.data.value.role === 'admin' ) {
     sidebarOn.value = true;
   }
   checkMobile();

@@ -18,7 +18,7 @@ const isLoading = ref(false);
 
 const fetchDrivers = async (page = 1) => {
     const {token} = await useAuth();
-    isLoading.value = true;a
+    isLoading.value = true;
     try {
         const { data } = await useFetch(`http://localhost:8000/api/users?role=driver&page=${page}`, {
             method: 'GET',
@@ -27,7 +27,6 @@ const fetchDrivers = async (page = 1) => {
                 'Authorization': token  
             },
         });
-
         driverList.value = data.value?.user?.data || [];
         totalPages.value = data.value?.user?.last_page || 1;
     } catch (error) {
@@ -55,7 +54,7 @@ onMounted(() => {
         <h2 class="text-2xl font-bold tracking-tight mb-10 text-slate-600">
             Daftar Driver
         </h2>
-        
+        <nuxt-link to="/admin/driver/register"> <Button>Tambahkan Driver</Button> </nuxt-link>
         <!-- Table -->
         <Table>
             <TableCaption>A list of your recent driver.</TableCaption>
@@ -73,8 +72,10 @@ onMounted(() => {
                     <TableCell>{{ driver.name }}</TableCell>
                     <TableCell>{{ driver.email }}</TableCell>
                     <TableCell class="text-right">
-                        <button class="btn btn-primary me-2">Edit</button>
-                        <button class="btn btn-danger">Delete</button>
+                        <NuxtLink :to="'/admin/driver/edit/'+driver.id">
+                            <Button >Edit</Button>
+                        </NuxtLink>
+                        <Button variant="destructive" >Delete</Button>
                     </TableCell>
                 </TableRow>
             </TableBody>

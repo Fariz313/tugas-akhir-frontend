@@ -39,12 +39,13 @@ const createOrder = async () => {
         address: address.value,
         type: type.value,
         lat: latitude.value,
-        lng: longitude.value
+        lng: longitude.value,
+        multilatlng: multilatlng.value
       }
       if(payloadData.type=="subscription"){
         payloadData.day = day.value
       }
-    const { data } = await $fetch(`http://localhost:8000/api/orders`, {
+    const data = await $fetch(`http://localhost:8000/api/orders`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -52,12 +53,15 @@ const createOrder = async () => {
       },
       body: payloadData
     });
-    if (data.value) {
+    console.log(data);
+    
+    if (data) {
       alert('Berhasil Di Submit')
       console.log('Form submitted!', data.value);
       useRouter().push('/');
     }
   } catch (error) {
+    alert('Pastikan Form diisi')
     console.error('There was an error submitting the form', error);
   } finally {
     isLoading.value = false
@@ -67,14 +71,12 @@ const createOrder = async () => {
 const address = ref('');
 const type = ref('one-time');
 const day = ref('one-time');
-const latitude = ref(null);
-const longitude = ref(null);
-
+const latitude = ref('0.0');
+const longitude = ref('0.0');
+const multilatlng =ref(null);
 const handleCoordinates = (coords) => {
-  latitude.value = coords.lat;
-  longitude.value = coords.lng;
-  console.log(coords);
-
+  multilatlng.value = JSON.stringify(coords)
+  console.log(multilatlng.value);
 };
 
 const changeType = (selectedType)=>{

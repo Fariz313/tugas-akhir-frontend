@@ -13,8 +13,8 @@
         <div class="mb-5">
           Alamat : <br>
           {{ order.address }} <br>
-          <nuxt-link :to="'https://maps.google.com/?q=' + order.lat + ',' + order.lng"><Button class="p-1">Buka Di
-              Maps</Button></nuxt-link>
+          <a target="_blank" v-for="data,index in JSON.parse(order.multilatlng)" :key="index" :to="'https://maps.google.com/?q=' + data[0] + ',' + data[1]"><Button class="p-1 px-2 me-3">Buka Di
+              Maps {{ index+1 }}</Button></a>
         </div>
         <Button :disabled="isLoading" v-if="!order.pickups_time" @click="submitPickup(order)">Pickup</Button>
         <Button disabled v-else>Sampah Telah diambil pada {{ order.pickups_time }}</Button>

@@ -73,7 +73,7 @@ const fetchOrders = async (page = 1) => {
                 'Authorization': token,
             },
         });
-
+        
         orderList.value = data.value?.data || [];
         totalPages.value = data.value?.last_page || 1;
     } catch (error) {
@@ -186,12 +186,13 @@ onMounted(() => {
                                             <Textarea id="address" name="address" class="col-span-3"
                                                 v-model:model-value="modelForm.address"
                                                 placeholder="Type your address here." />
-                                            <a class="col-span-1"
-                                                :href="'https://maps.google.com/?q=' + modelForm.lat + ',' + modelForm.lng"></a>
-                                            <a class="col-span-3"
-                                                :href="'https://maps.google.com/?q=' + modelForm.lat + ',' + modelForm.lng">Buka
-                                                di
-                                                Map</a>
+                                                <div  class="col-span-4 ms-5" v-for="data,index in JSON.parse(modelForm.multilatlng)" :key="index">
+
+                                                    <a target="_blank"class=""
+                                                        :href="'https://maps.google.com/?q=' + data[0] + ',' + data[1   ]">Buka
+                                                        di
+                                                        Map {{ index+1 }}</a>
+                                                </div>
                                         </div>
                                         <div class="grid grid-cols-4 items-center gap-4">
                                             <Label for="status" class="text-right">
